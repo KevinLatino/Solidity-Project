@@ -1,0 +1,24 @@
+@keyframes gradient-rotate {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .border-gradient {
+    position: relative;
+    overflow: hidden;
+    border: 3.5px solid transparent; /* Ajusta el grosor del borde aquí */
+    border-radius: 12px; /* Ajusta según el border-radius del botón */
+    background: linear-gradient(#191d34, #191d34) padding-box,
+                linear-gradient(90deg, #00bcd4, #31e2b0, #9c27b0, #37d3dc) border-box;
+    background-size: 200% 200%;
+    animation: gradient-rotate 4s linear infinite;
+    color: white; /* Asegura que el texto sea visible en el botón */
+  }
+  
