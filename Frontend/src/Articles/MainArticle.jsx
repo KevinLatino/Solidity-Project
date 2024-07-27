@@ -32,7 +32,7 @@ const MainArticle = () => {
         <div className="flex justify-center w-full gap-[6rem] mt-10">
           {/* Left Table */}
           <div className="w-[40rem]">
-            <h2 className="text-xl font-semibold mb-4 flex gap-2">Contributors <Heart color='red'/></h2>
+            <h2 className="text-xl font-semibold mb-4 flex gap-2">Contributors <Heart color='#f05b5b'/></h2>
             <table className="border-collapse border border-gray-300 w-full">
               <thead>
                 <tr>
@@ -53,7 +53,7 @@ const MainArticle = () => {
 
           {/* Right Table */}
           <div className="w-[40rem]">
-            <h2 className="text-xl font-semibold mb-4 flex gap-6">Received <Wallet  color='green'/></h2>
+            <h2 className="text-xl font-semibold mb-4 flex gap-6">Received <Wallet  color='#11f093'/></h2>
             <table className="border-collapse border border-gray-300 w-full">
               <thead>
                 <tr>
