@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.",
+  "version": "1.0.0",
+  "main": "hardhat.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.6"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-ignition": "^0.15.5",
+    "@openzeppelin/contracts": "^5.0.2",
+    "dotenv": "^16.4.5"
+  }
+}
