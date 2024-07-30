@@ -11,7 +11,25 @@ module.exports = {
     hardhat: {},
     localhost: {
       url: "http://127.0.0.1:8545",
-      accounts: [`0x${PRIVATE_KEY}`]
-    }
-  }
+    },
+    optimismSepolia: {
+      url: `https://opt-sepolia.g.alchemy.com/v2/Xp4eOD215KBcQ3qmiDAimqoKy9eLNdYd${ALCHEMY_API_KEY}`,
+      accounts: [`0x${PRIVATE_KEY}`],
+    },
+  },
+  etherscan: {
+    apiKey: {
+      optimismSepolia: ETHERSCAN_API_KEY,
+    },
+    customChains: [
+      {
+        network: "optimismSepolia",
+        chainId: 11155420,
+        urls: {
+          apiURL: "https://api-sepolia-optimistic.etherscan.io/api",
+          browserURL: "https://sepolia-optimism.etherscan.io/"
+        }
+      }
+    ]
+  },
 };
