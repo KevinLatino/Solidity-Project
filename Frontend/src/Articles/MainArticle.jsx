@@ -21,8 +21,8 @@ const rightTableData = [
 const MainArticle = () => {
   return (
     <Layout>
-      <div className="mt-[8rem] flex flex-col items-center gap-6">
-        <div className="text-center">
+      <div className="mt-[6rem] flex flex-col items-center gap-6">
+        <div className="flex text-center flex-col gap-6">
           <h1 className="text-4xl font-bold">Total Received</h1>
           <div className="p-4 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-xl font-semibold mt-4">
             <h1>$123,456.78</h1>
