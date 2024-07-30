@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
             >
             </div>
             <div className="relative flex flex-col min-h-screen">
-                <HeaderComponent />
+                <HeaderComponent/>
                 <main className="flex-1">{children}</main>
             </div>
         </div>

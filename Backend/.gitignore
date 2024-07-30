@@ -1,18 +1,29 @@
 node_modules
 .env
-/package-lock.json
+
+# Lock files
+package-lock.json
 
 # Hardhat files
-/cache
-/artifacts
+cache
+artifacts
 
 # TypeChain files
-/typechain
-/typechain-types
+typechain
+typechain-types
 
 # solidity-coverage files
-/coverage
-/coverage.json
+coverage
+coverage.json
 
 # Hardhat Ignition default folder for deployments against a local node
 ignition/deployments/chain-31337
+
+# IDE and editor files (optional but recommended)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.DS_Store
