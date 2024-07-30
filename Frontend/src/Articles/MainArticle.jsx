@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../Layouts/Layout';
-import { Heart, Wallet   } from 'lucide-react';
+import { Heart, Wallet } from 'lucide-react';
 
 const leftTableData = [
   { walletAddress: '0xABC123...', money: '$1,234.56' },
@@ -19,20 +19,43 @@ const rightTableData = [
 ];
 
 const MainArticle = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [walletAddress, setWalletAddress] = useState('');
+  const [amount, setAmount] = useState('');
+
+  const handlePopUp = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDonate = () => {
+    console.log(`Donating ${amount} to ${walletAddress}`);
+    // Aquí puedes agregar la lógica para manejar la donación
+    handleClose();
+  };
+
   return (
     <Layout>
-      <div className="mt-[6rem] flex flex-col items-center gap-6">
+      <div className="mt-[3rem] flex flex-col items-center gap-6">
         <div className="flex text-center flex-col gap-6">
           <h1 className="text-4xl font-bold">Total Received</h1>
           <div className="p-4 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-xl font-semibold mt-4">
             <h1>$123,456.78</h1>
           </div>
+          <button className="flex justify-center items-center gap-2 border-gradient p-3 text-xl transition"
+            onClick={handlePopUp}
+          >
+            Make a donation
+          </button>
         </div>
 
         <div className="flex justify-center w-full gap-[6rem] mt-10">
           {/* Left Table */}
           <div className="w-[40rem]">
-            <h2 className="text-xl font-semibold mb-4 flex gap-2">Contributors <Heart color='#f05b5b'/></h2>
+            <h2 className="text-xl font-semibold mb-4 flex gap-2">Contributors <Heart color='#f05b5b' /></h2>
             <table className="border-collapse border border-gray-300 w-full">
               <thead>
                 <tr>
@@ -53,7 +76,7 @@ const MainArticle = () => {
 
           {/* Right Table */}
           <div className="w-[40rem]">
-            <h2 className="text-xl font-semibold mb-4 flex gap-6">Receivers <Wallet  color='#11f093'/></h2>
+            <h2 className="text-xl font-semibold mb-4 flex gap-6">Receivers <Wallet color='#11f093' /></h2>
             <table className="border-collapse border border-gray-300 w-full">
               <thead>
                 <tr>
@@ -72,6 +95,44 @@ const MainArticle = () => {
             </table>
           </div>
         </div>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
+            <div className="bg-gray-900 text-white p-8 rounded-lg shadow-lg w-[30rem]">
+              <h2 className="text-2xl font-semibold mb-6">Make a Donation</h2>
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-1">Wallet Address</label>
+                <input
+                  type="text"
+                  onChange={(e) => setWalletAddress(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-full bg-gray-700 text-white"
+                />
+              </div>
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-1">Amount</label>
+                <input
+                  type="text"
+                  onChange={(e) => setAmount(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-full bg-gray-700 text-white"
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button
+                  className="px-4 py-2 bg-gray-600 rounded-full hover:bg-gray-700"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                  onClick={handleDonate}
+                >
+                  Donate
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
