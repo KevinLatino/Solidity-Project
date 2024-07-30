@@ -53,7 +53,7 @@ const MainArticle = () => {
 
           {/* Right Table */}
           <div className="w-[40rem]">
-            <h2 className="text-xl font-semibold mb-4 flex gap-6">Received <Wallet  color='#11f093'/></h2>
+            <h2 className="text-xl font-semibold mb-4 flex gap-6">Receivers <Wallet  color='#11f093'/></h2>
             <table className="border-collapse border border-gray-300 w-full">
               <thead>
                 <tr>
