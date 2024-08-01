@@ -1,13 +1,13 @@
 import MainArticle from './Articles/MainArticle'
-import { MyProvider } from './context/Context'
+import { AppProvider } from './context/Context'
 
 
 function App() {
 
   return (
-    <MyProvider>
+    <AppProvider>
       <MainArticle />
-    </MyProvider>
+    </AppProvider>
   )
 }
 

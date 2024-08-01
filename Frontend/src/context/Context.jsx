@@ -1,13 +1,17 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
-export const MyContext = createContext()
+export const TotalReceivedContext = createContext()
+export const OwnerContext = createContext()
 
-export const MyProvider = ({ children }) => {
-    const [total, setTotal] = useState(0)
+export const AppProvider = ({ children }) => {
+    const [totalReceived, setTotalReceived] = useState(0)
+    const [isOwner, setIsOwner] = useState(false)
 
   return (
-    <MyContext.Provider value={{ total, setTotal }}>
+    <TotalReceivedContext.Provider value={{ totalReceived, setTotalReceived }}>
+      <OwnerContext.Provider value={{ isOwner, setIsOwner }}>
         { children }
-    </MyContext.Provider>
+        </OwnerContext.Provider>
+    </TotalReceivedContext.Provider>
   )
 }
