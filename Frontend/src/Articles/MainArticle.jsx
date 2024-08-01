@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { ethers } from 'ethers';
 import Layout from '../Layouts/Layout';
 import { Heart, Wallet } from 'lucide-react';
+import toast, { Toaster } from 'react-hot-toast';
 
-import { TotalReceivedContext, OwnerContext, WalletConnectedContext } from '../context/Context';
+import { TotalReceivedContext, OwnerContext, WalletConnectedContext, SignerContext, CurrentConnectedAccountContext } from '../context/Context';
 
 const leftTableData = [
   { address: '0xABC123...', money: '$1,234.56' },
@@ -25,10 +27,12 @@ const MainArticle = () => {
   const [isProjectDetailsModalOpen, setIsProjectModalOpen] = useState(false);
   const [isProjectDonateModalOpen, setIsProjectDonateModalOpen] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(0);
   const [amountForProject, setAmountForProject] = useState(0);
   const [project, setProject] = useState({name: '', wallet: '', money: 0, description: ''});
 
+  let { signer, setSigner } = useContext(SignerContext);
+  let { currentConnectedAccount, setCurrentConnectedAccount } = useContext(CurrentConnectedAccountContext);
   const { totalReceived, setTotalReceived } = useContext(TotalReceivedContext);
   const { isOwner, setIsOwner } = useContext(OwnerContext);
   const { isWalletConnected, setIsWalletConnected } = useContext(WalletConnectedContext);
@@ -80,14 +84,39 @@ const MainArticle = () => {
     setAmountForProject(amount)
   };
 
-  const handleDonate = () => {
-    console.log(`Donating ${amount} to ${walletAddress}`);
-    // Aquí puedes agregar la lógica para manejar la donación
+  const handleDonate = async () => {
+    console.log(`Donating ${amount} from ${walletAddress}`);
+        
+    // When sending a transaction, the value is in wei, so parseEther
+    // converts ether to wei.
+    const tx = await signer.sendTransaction({
+      to: process.env.OWNER_ACCOUNT,
+      value: ethers.parseEther(amount)
+    });
+    
+    // Often you may wish to wait until the transaction is mined
+    tx.wait().then(receipt => {
+      setTotalReceived(prev => parseFloat(prev) + parseFloat(amount))
+        
+        console.log(receipt)
+        
+        toast.success(`Successfully donated to ${receipt.to}`, {
+          position: 'top-left',
+          style: {
+            minWidth: '500px',
+          },
+        })
+      }).catch(error => {
+        console.log(error);
+      })
+    
     handleClose();
   };
 
   return (
     <Layout>
+            <Toaster />
+
       <div className="mt-[3rem] flex flex-col items-center gap-6">
         <div className="flex text-center flex-col gap-6">
           <h1 className="text-4xl font-bold">Total Received</h1>
@@ -95,20 +124,22 @@ const MainArticle = () => {
             <h1>{totalReceived} ETH</h1>
           </div>
 
-          {/*<section className='flex flex-row'>*/}
+          {currentConnectedAccount != process.env.OWNER_ACCOUNT &&
             <button disabled={!isWalletConnected} className={`flex justify-center items-center gap-2 border-gradient p-3 text-xl transition ${!isWalletConnected ? 'opacity-50 cursor-not-allowed' : ''}`}
               onClick={handlePopUp}
             >
               Make a donation
             </button>
+            }
 
-            { /*isOwner &&
+            {/*
+            {currentConnectedAccount == process.env.OWNER_ACCOUNT &&
               <button className="flex justify-center items-center gap-2 border-gradient p-3 text-xl transition"
                 onClick={handleProjectDonatePopUp} >
                 Donate to project
-              </button>*/
+              </button>
             }
-          {/*</section>*/}
+            */}
         </div>
 
         <div className="flex justify-center w-full gap-[6rem] mt-10">
