@@ -3,12 +3,12 @@ import { ethers } from 'ethers';
 import './HeaderComponent.css';
 import Metamask from '../../public/metamask.svg'
 
-import { TotalReceivedContext, OwnerContext } from '../context/Context'
+import { TotalReceivedContext, OwnerContext, WalletConnectedContext } from '../context/Context'
 
 const HeaderComponent = () => {
   const { totalReceived, setTotalReceived } = useContext(TotalReceivedContext);
   const { isOwner, setIsOwner } = useContext(OwnerContext);
-  const [ isWalletConnected, setIsWalletConnected ] = useState(false);
+  const { isWalletConnected, setIsWalletConnected } = useContext(WalletConnectedContext);
   const [ currentConnectedAccount, setCurrentConnectedAccount ] = useState('');
 
   let OWNER_ACCOUNT = process.env.OWNER_ACCOUNT
