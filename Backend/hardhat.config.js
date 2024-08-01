@@ -11,7 +11,7 @@ module.exports = {
     hardhat: {},
     localhost: {
       url: "http://127.0.0.1:8545",
-      chainId: 1337,
+      chainId: 31337,
     },
     optimismSepolia: {
       url: `https://opt-sepolia.g.alchemy.com/v2/Xp4eOD215KBcQ3qmiDAimqoKy9eLNdYd${ALCHEMY_API_KEY}`,
