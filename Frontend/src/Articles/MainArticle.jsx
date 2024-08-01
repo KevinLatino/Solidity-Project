@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Layout from '../Layouts/Layout';
 import { Heart, Wallet } from 'lucide-react';
+
+import { MyContext } from '../context/Context';
 
 const leftTableData = [
   { address: '0xABC123...', money: '$1,234.56' },
@@ -27,6 +29,7 @@ const MainArticle = () => {
   const [amountForProject, setAmountForProject] = useState(0);
   const [project, setProject] = useState({name: '', wallet: '', money: 0, description: ''});
 
+  const { total, setTotal } = useContext(MyContext);
 
   const handlePopUp = () => {
     setIsModalOpen(true);
@@ -83,7 +86,7 @@ const MainArticle = () => {
         <div className="flex text-center flex-col gap-6">
           <h1 className="text-4xl font-bold">Total Received</h1>
           <div className="p-4 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-xl font-semibold mt-4">
-            <h1>$123,456.78</h1>
+            <h1>{total} ETH</h1>
           </div>
 
           <section className='flex flex-row gap-5'>
