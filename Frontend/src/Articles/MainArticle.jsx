@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Layout from '../Layouts/Layout';
 import { Heart, Wallet } from 'lucide-react';
 
@@ -31,6 +31,10 @@ const MainArticle = () => {
 
   const { totalReceived, setTotalReceived } = useContext(TotalReceivedContext);
   const { isOwner, setIsOwner } = useContext(OwnerContext);
+
+  useEffect(() => {
+    console.log(isOwner);
+  }, [isOwner])
 
   const handlePopUp = () => {
     setIsModalOpen(true);
@@ -90,20 +94,20 @@ const MainArticle = () => {
             <h1>{totalReceived} ETH</h1>
           </div>
 
-          <section className='flex flex-row gap-2'>
+          {/*<section className='flex flex-row'>*/}
             <button className="flex justify-center items-center gap-2 border-gradient p-3 text-xl transition"
               onClick={handlePopUp}
             >
               Make a donation
             </button>
 
-            { isOwner &&
+            { /*isOwner &&
               <button className="flex justify-center items-center gap-2 border-gradient p-3 text-xl transition"
                 onClick={handleProjectDonatePopUp} >
                 Donate to project
-              </button>
+              </button>*/
             }
-          </section>
+          {/*</section>*/}
         </div>
 
         <div className="flex justify-center w-full gap-[6rem] mt-10">

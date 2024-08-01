@@ -9,7 +9,9 @@ const HeaderComponent = () => {
   const { totalReceived, setTotalReceived } = useContext(TotalReceivedContext);
   const { isOwner, setIsOwner } = useContext(OwnerContext);
   const [ isWalletConnected, setIsWalletConnected ] = useState(false);
+  const [ currentConnectedAccount, setCurrentConnectedAccount ] = useState('');
 
+  let OWNER_ACCOUNT = process.env.OWNER_ACCOUNT
   let signer = null;
   let provider;
 
@@ -20,9 +22,26 @@ const HeaderComponent = () => {
       alert("MetaMask not installed; using read-only defaults")
       provider = ethers.getDefaultProvider()
     }
+
+    window.ethereum.on('accountsChanged', handleAccountChanged)
+
+    //const onScroll = (event) => console.info("scrolling", event);
+    //window.addEventListener('scroll', onScroll);
+    //return () => {
+    //  window.removeEventListener('scroll', onScroll);
+    //}
   }, [])
+
+  const handleAccountChanged = (accounts) => {
+    setCurrentConnectedAccount(accounts[0])
+    disconnectWallet()
+  }
   
   const connectWallet = async () => {
+    if (isWalletConnected) {
+      disconnectWallet()
+      return;
+    }
     // Connect to the MetaMask EIP-1193 object. This is a standard protocol that allows Ethers access to make all read-only requests through MetaMask.
     provider = new ethers.BrowserProvider(window.ethereum)
 
@@ -32,12 +51,28 @@ const HeaderComponent = () => {
     signer = await provider.getSigner();
     console.log(signer.address);
 
-    signer.address == '0x70997970C51812dc3A010C7d01b50e0d17dc79C8'? setIsOwner(true) : setIsOwner(false)
+    setCurrentConnectedAccount(signer.address )
+    currentConnectedAccount == OWNER_ACCOUNT ? setIsOwner(true) : setIsOwner(false)
 
     getBalance(signer)
   }
 
+  const disconnectWallet = async () => {
+    provider = null
+    signer = null
+    setIsOwner(false)
+    setIsWalletConnected(false)
+    setCurrentConnectedAccount('')
+    
+    getBalance(signer)
+  }
+
   const getBalance = async (signer) => {
+    if (!signer) {
+      setTotalReceived(0)
+      return;
+    }
+
     let provider = signer.provider
 
     // Get the current balance of an account (by address or ENS name)
@@ -45,16 +80,19 @@ const HeaderComponent = () => {
 
     // Since the balance is in wei, you may wish to display it in ether instead.
     setTotalReceived(ethers.formatEther(balanceWei))
-    //console.log(balance);
   }
 
   return (
     <header className="top-0 w-full z-10 flex items-center justify-center mt-6">
       { window.ethereum &&
-        <button disabled={isWalletConnected} onClick={connectWallet} className={`flex justify-center items-center gap-2 border-gradient p-3 text-xl transition ${isWalletConnected ? 'opacity-50 cursor-not-allowed' : ''}`}>
-          Connect Wallet
-          <img src={Metamask} className='w-[3rem]'/>
+        <div className='flex flex-col items-center'>
+          <button onClick={connectWallet} className={`flex justify-center items-center gap-2 border-gradient p-3 text-xl transition`}>
+            {isWalletConnected ? 'Disconnect Wallet' : `Connect Wallet` }
+            <img src={Metamask} className='w-[3rem]'/>
           </button>
+
+            <p className='text-gray-400'>Connected Address: {currentConnectedAccount || '-'}</p>
+          </div>
       }
     </header>
   );
