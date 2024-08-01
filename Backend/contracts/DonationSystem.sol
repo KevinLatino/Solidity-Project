@@ -2,6 +2,7 @@
 pragma solidity 0.8.24;
 
 contract DonationSystem {
+    address private storedAddress;
 
     // Mapping from donor address to the total amount donated
     mapping(address => uint256) public donorBalances;
@@ -20,7 +21,9 @@ contract DonationSystem {
         _;
     }
 
-    constructor() {
+    constructor(address _initialAddress) {
+        require(_initialAddress != address(0), "Initial address cannot be zero address");
+        storedAddress = _initialAddress;
         totalBalance = 0;
     }
 
