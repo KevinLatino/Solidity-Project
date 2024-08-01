@@ -5,6 +5,7 @@ export const OwnerContext = createContext()
 export const WalletConnectedContext = createContext()
 export const SignerContext = createContext()
 export const CurrentConnectedAccountContext = createContext()
+export const ContributorsContext = createContext()
 
 export const AppProvider = ({ children }) => {
   const [totalReceived, setTotalReceived] = useState(0)
@@ -12,6 +13,7 @@ export const AppProvider = ({ children }) => {
   const [isWalletConnected, setIsWalletConnected] = useState(false)
   const [signer, setSigner] = useState(null)
   const [currentConnectedAccount, setCurrentConnectedAccount] = useState('');
+  const [contributors, setContributors] = useState([])
 
   return (
     <TotalReceivedContext.Provider value={{ totalReceived, setTotalReceived }}>
@@ -19,7 +21,9 @@ export const AppProvider = ({ children }) => {
         <WalletConnectedContext.Provider value={{ isWalletConnected, setIsWalletConnected }}>
           <SignerContext.Provider value={{ signer, setSigner }}>
             <CurrentConnectedAccountContext.Provider value={{ currentConnectedAccount, setCurrentConnectedAccount }}>
+              <ContributorsContext.Provider value={{ contributors, setContributors }}>
               { children }
+              </ContributorsContext.Provider>
             </CurrentConnectedAccountContext.Provider>
           </SignerContext.Provider>
         </WalletConnectedContext.Provider>

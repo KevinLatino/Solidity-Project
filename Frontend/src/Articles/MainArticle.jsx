@@ -4,15 +4,7 @@ import Layout from '../Layouts/Layout';
 import { Heart, Wallet } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 
-import { TotalReceivedContext, OwnerContext, WalletConnectedContext, SignerContext, CurrentConnectedAccountContext } from '../context/Context';
-
-const leftTableData = [
-  { address: '0xABC123...', money: '$1,234.56' },
-  { address: '0xDEF456...', money: '$2,345.67' },
-  { address: '0xGHI789...', money: '$3,456.78' },
-  { address: '0xJKL012...', money: '$4,567.89' },
-  { address: '0xMNO345...', money: '$5,678.90' },
-];
+import { TotalReceivedContext, OwnerContext, WalletConnectedContext, SignerContext, CurrentConnectedAccountContext, ContributorsContext } from '../context/Context';
 
 const rightTableData = [
   { address: '0xEFG123...', money: '$11,234.56' },
@@ -30,16 +22,14 @@ const MainArticle = () => {
   const [amount, setAmount] = useState(0);
   const [amountForProject, setAmountForProject] = useState(0);
   const [project, setProject] = useState({name: '', wallet: '', money: 0, description: ''});
+  
 
   let { signer, setSigner } = useContext(SignerContext);
   let { currentConnectedAccount, setCurrentConnectedAccount } = useContext(CurrentConnectedAccountContext);
   const { totalReceived, setTotalReceived } = useContext(TotalReceivedContext);
   const { isOwner, setIsOwner } = useContext(OwnerContext);
   const { isWalletConnected, setIsWalletConnected } = useContext(WalletConnectedContext);
-
-  useEffect(() => {
-    console.log(isOwner);
-  }, [isOwner])
+  const { contributors, setContributors } = useContext(ContributorsContext);
 
   const handlePopUp = () => {
     setIsModalOpen(true);
@@ -63,7 +53,6 @@ const MainArticle = () => {
 
   const setProjectDetailsPopUp = (walletAddress) => {
     // Buscar el ID
-    console.log(walletAddress);
     const projectById = {name: 'abc', wallet: walletAddress, money: 0, description: 'abc123'}
 
     const name = projectById.name
@@ -85,8 +74,6 @@ const MainArticle = () => {
   };
 
   const handleDonate = async () => {
-    console.log(`Donating ${amount} from ${walletAddress}`);
-        
     // When sending a transaction, the value is in wei, so parseEther
     // converts ether to wei.
     const tx = await signer.sendTransaction({
@@ -145,7 +132,7 @@ const MainArticle = () => {
         <div className="flex justify-center w-full gap-[6rem] mt-10">
           {/* Left Table */}
           <div className="w-[40rem]">
-            <h2 className="text-xl font-semibold mb-4 flex gap-2">Contributors <Heart color='#f05b5b' /></h2>
+            <h2 className="text-xl font-semibold mb-4 flex gap-2">Top 10 Contributors <Heart color='#f05b5b' /></h2>
             <table className="border-collapse border border-gray-300 w-full">
               <thead>
                 <tr>
@@ -154,10 +141,10 @@ const MainArticle = () => {
                 </tr>
               </thead>
               <tbody>
-                {leftTableData.map((wallet) => (
-                  <tr key={wallet.address}>
-                    <td className="border border-gray-400 px-4 py-2">{wallet.address}</td>
-                    <td className="border border-gray-400 px-4 py-2">{wallet.money}</td>
+                {contributors.map((wallet) => (
+                  <tr key={wallet.hash}>
+                    <td className="border border-gray-400 px-4 py-2">{wallet.from}</td>
+                    <td className="border border-gray-400 px-4 py-2">{wallet.value}</td>
                   </tr>
                 ))}
               </tbody>
